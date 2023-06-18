@@ -1,6 +1,6 @@
 import pygame
 from helper.constants import GRAY, LIGHT_GREEN, ROWS, COLS
-from pieces.pieces import white_pawn, black_pawn
+from pieces.pieces import white_pawn, white_bishop, white_king, white_knight, white_queen, white_rook, black_pawn, black_bishop, black_king, black_knight,black_queen, black_rook
 
 class Board:
     def __init__(self):
@@ -29,19 +29,25 @@ class Board:
                     
           
     def create_board(self):
+        #Create 8x8 empty matrix
         for row in range(ROWS):
             holder = []
             for col in range(COLS):
                 holder.append(0)
             self.board.append(holder)
-        # Adding white pawns
+
+        white_str = "PPPPPPPPRNBQKBNR"
+        black_str = "rnbqkbnrpppppppp"
+        # Adding white pieces
         for row in range(6, 8):
             for col in range(COLS):
-                self.board[row][col] = "P"
+                self.board[row][col] = white_str[(col) + (row - 6) * 8]
         # Adding black pawns
         for row in range(0, 2):
             for col in range(COLS):
-                self.board[row][col] = "p"
+                self.board[row][col] = black_str[col + row * 8]
+        
+        
     def update_pieces(self, screen):
         #iterate through the matrix and update the screen
         for row in range(ROWS):
@@ -52,6 +58,26 @@ class Board:
                         screen.blit(white_pawn, (100 * col, 100 * row))
                     case "p": #black pawns
                         screen.blit(black_pawn, (100 * col, 100 * row))
+                    case "R": #white rooks
+                        screen.blit(white_rook, (100 * col, 100 * row))
+                    case "r": #black rooks
+                        screen.blit(black_rook, (100 * col, 100 * row))
+                    case "N": #white knights
+                        screen.blit(white_knight, (100 * col, 100 * row))
+                    case "n": #black knights
+                        screen.blit(black_knight, (100 * col, 100 * row))
+                    case "B": #white bishop
+                        screen.blit(white_bishop, (100 * col, 100 * row))
+                    case "b": #black bishop
+                        screen.blit(black_bishop, (100 * col, 100 * row))
+                    case "Q": #white queen
+                        screen.blit(white_queen, (100 * col, 100 * row))
+                    case "q": #black queen
+                        screen.blit(black_queen, (100 * col, 100 * row))
+                    case "K": #white king
+                        screen.blit(white_king, (100 * col, 100 * row))
+                    case "k": #black king
+                        screen.blit(black_king, (100 * col, 100 * row))
 
 
 
