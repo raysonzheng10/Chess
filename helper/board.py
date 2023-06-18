@@ -1,6 +1,6 @@
 import pygame
 from helper.constants import GRAY, LIGHT_GREEN, ROWS, COLS
-from pieces.pieces import pawn_surface
+from pieces.pieces import white_pawn, black_pawn
 
 class Board:
     def __init__(self):
@@ -34,20 +34,24 @@ class Board:
             for col in range(COLS):
                 holder.append(0)
             self.board.append(holder)
-        #placeholder, create a bunch of pawns
+        # Adding white pawns
         for row in range(6, 8):
             for col in range(COLS):
                 self.board[row][col] = "P"
+        # Adding black pawns
+        for row in range(0, 2):
+            for col in range(COLS):
+                self.board[row][col] = "p"
     def update_pieces(self, screen):
         #iterate through the matrix and update the screen
         for row in range(ROWS):
             for col in range(COLS):
                 input = self.board[row][col]
                 match input:
-                    case "P":
-                        #create a pawn at that spot
-                        screen.blit(pawn_surface, (100 * col, 100 * row))
-
+                    case "P": #white pawns
+                        screen.blit(white_pawn, (100 * col, 100 * row))
+                    case "p": #black pawns
+                        screen.blit(black_pawn, (100 * col, 100 * row))
 
 
 
