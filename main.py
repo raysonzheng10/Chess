@@ -1,32 +1,40 @@
+#IMPORT IMPORTANT FILES
 import pygame
 from sys import exit
-from helper.constants import WIDTH, HEIGHT
+from helper.constants import WIDTH, HEIGHT, GRAY, LIGHT_GREEN
+from helper.board import Board
 
+
+#INITIALIZING SCREEN
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Chess')
+icon = pygame.image.load('pieces/white_knight.png')
+pygame.display.set_icon(icon)
 clock = pygame.time.Clock()
 
-green_surface = pygame.Surface((100,100))
-green_surface.fill((127, 166, 80))
 
-white_surface = pygame.Surface((100,100))
-white_surface.fill((238, 238, 210))
+#CREATE BOARD
+board = Board()
 
-pawn_surface = pygame.image.load('white_pawn.png')
-pawn_surface = pygame.transform.scale(pawn_surface, (100,100))
 
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            exit()
-    for i in range(8):
-        for j in range(8):
-            if (i + j) % 2 == 1:
-                screen.blit(green_surface, (100 * i, 100 * j))
-            else:
-                screen.blit(white_surface, (100 * i, 100 * j))
-    screen.blit(pawn_surface, (100,100))
-    pygame.display.update()
-    clock.tick(60)
+def main():
+    print(board.board)
+    while True:
+        # Main loop, listening to different events/inputs
+        for event in pygame.event.get():
+            # Quit functionality
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            #if event type == start game, run initlize
+        
+
+        board.draw_tiles(screen)
+        board.update_pieces(screen)
+
+        pygame.display.update()
+        clock.tick(60)
+
+
+main()
