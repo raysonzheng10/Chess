@@ -16,7 +16,7 @@ class Board:
     def __init__(self):
         # generate the tiles that make up the board
         self.board = []
-        self.selected_piece = None
+        self.selected_tile = None
 
         self.create_board()
     
@@ -88,6 +88,9 @@ class Board:
                         screen.blit(white_king, (100 * col, 100 * row))
                     case "k": #black king
                         screen.blit(black_king, (100 * col, 100 * row))
-
-
+    
+    
+    def update_selection(self, screen, ):
+        # Draw a circle around the selected square
+        
 

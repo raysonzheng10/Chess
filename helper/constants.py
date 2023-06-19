@@ -8,3 +8,4 @@ TILE_SIZE = WIDTH / COLS
 #Colors
 LIGHT_GREEN = (127, 166, 80) #chess.com green tiles
 GRAY = (238, 238, 210) #chess.com gray tiles
+YELLOW = (247, 247, 105) #chess.comm highlighted tile

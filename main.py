@@ -19,14 +19,24 @@ board = Board()
 
 
 def main():
-    print (board.board)
     while True:
         # Main loop, listening to different events/inputs
         for event in pygame.event.get():
+            # User clicks on the board
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                # Gets the row and col positions from the click
+                mouse_pos = pygame.mouse.get_pos()
+                row = mouse_pos[1] // 100
+                col = mouse_pos[0] // 100
+                board.selected_tile = [row, col]
+                print(board.selected_tile)
+                # Check and see what was clicked on
+                
             # Quit functionality
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
+            
             #if event type == start game, run initlize
         
 
