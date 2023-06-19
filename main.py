@@ -43,12 +43,8 @@ def main():
             # Quit functionality
             game_quit(event)
             
-            #if event type == start game, run initlize
         
-        if board.selected_tile == None:
-            board.draw_tiles(screen)
-        else: 
-            board.update_selection(screen)
+        board.draw_tiles(screen)
         board.update_pieces(screen)
 
         pygame.display.update()

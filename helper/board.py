@@ -23,12 +23,14 @@ class Board:
     # function to draw the board, input takes in the screen 
     def draw_tiles(self, screen):
         # iterate through the board and draw the tiles
-        for i in range(8):
-            for j in range(8):
-                if (i + j) % 2 == 1:
-                    screen.blit(green_surface, (100 * i, 100 * j))
+        for row in range(ROWS):
+            for col in range(COLS):
+                if (row + col) % 2 == 1:
+                    screen.blit(green_surface, (100 * row, 100 * col))
                 else:
-                    screen.blit(gray_surface, (100 * i, 100 * j))
+                    screen.blit(gray_surface, (100 * row, 100 * col))
+        if self.selected_tile != None:
+            screen.blit(yellow_surface, (100 * self.selected_tile[1], 100 * self.selected_tile[0]))
                     
           
     def create_board(self):
@@ -83,15 +85,4 @@ class Board:
                         screen.blit(black_king, (100 * col, 100 * row))
     
     
-    def update_selection(self, screen):
-        # Highlight the selected square
-        # Recreate regular board
-        for i in range(8):
-            for j in range(8):
-                if (i + j) % 2 == 1:
-                    screen.blit(green_surface, (100 * i, 100 * j))
-                else:
-                    screen.blit(gray_surface, (100 * i, 100 * j))
-        # Highlight selected_tile
-        screen.blit(yellow_surface, (100 * self.selected_tile[1], 100 * self.selected_tile[0]))
 
