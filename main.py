@@ -29,6 +29,7 @@ def main():
                 row = mouse_pos[1] // 100
                 col = mouse_pos[0] // 100
                 board.selected_tile = [row, col]
+
                 print(board.selected_tile)
                 # Check and see what was clicked on
                 
@@ -39,8 +40,10 @@ def main():
             
             #if event type == start game, run initlize
         
-
-        board.draw_tiles(screen)
+        if board.selected_tile == None:
+            board.draw_tiles(screen)
+        else: 
+            board.update_selection(screen)
         board.update_pieces(screen)
 
         pygame.display.update()

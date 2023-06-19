@@ -1,5 +1,5 @@
 import pygame
-from helper.constants import GRAY, LIGHT_GREEN, ROWS, COLS
+from helper.constants import gray_surface, green_surface, yellow_surface, ROWS, COLS
 from pieces.pieces import white_pawn, white_bishop, white_king, white_knight, white_queen, white_rook, black_pawn, black_bishop, black_king, black_knight,black_queen, black_rook
 
 
@@ -23,13 +23,6 @@ class Board:
     # function to draw the board, input takes in the screen 
     def draw_tiles(self, screen):
         # iterate through the board and draw the tiles
-        
-        # Define surfaces to later output onto screen 
-        gray_surface = pygame.Surface((100,100))
-        gray_surface.fill(GRAY)
-        green_surface = pygame.Surface((100,100))
-        green_surface.fill(LIGHT_GREEN)
-
         for i in range(8):
             for j in range(8):
                 if (i + j) % 2 == 1:
@@ -90,7 +83,15 @@ class Board:
                         screen.blit(black_king, (100 * col, 100 * row))
     
     
-    def update_selection(self, screen, ):
-        # Draw a circle around the selected square
-        
+    def update_selection(self, screen):
+        # Highlight the selected square
+        # Recreate regular board
+        for i in range(8):
+            for j in range(8):
+                if (i + j) % 2 == 1:
+                    screen.blit(green_surface, (100 * i, 100 * j))
+                else:
+                    screen.blit(gray_surface, (100 * i, 100 * j))
+        # Highlight selected_tile
+        screen.blit(yellow_surface, (100 * self.selected_tile[1], 100 * self.selected_tile[0]))
 
