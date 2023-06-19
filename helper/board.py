@@ -2,6 +2,16 @@ import pygame
 from helper.constants import GRAY, LIGHT_GREEN, ROWS, COLS
 from pieces.pieces import white_pawn, white_bishop, white_king, white_knight, white_queen, white_rook, black_pawn, black_bishop, black_king, black_knight,black_queen, black_rook
 
+
+class Tile:
+    def __init__(self, row, col, piece):
+        # piece tells what team and type of piece is on this tile
+        self.piece = piece
+
+        # x and y determine the position of the tile
+        self.row = row
+        self.col = col
+    
 class Board:
     def __init__(self):
         # generate the tiles that make up the board
@@ -33,7 +43,7 @@ class Board:
         for row in range(ROWS):
             holder = []
             for col in range(COLS):
-                holder.append(0)
+                holder.append(Tile(row, col, None))
             self.board.append(holder)
 
         white_str = "PPPPPPPPRNBQKBNR"
@@ -41,18 +51,18 @@ class Board:
         # Adding white pieces
         for row in range(6, 8):
             for col in range(COLS):
-                self.board[row][col] = white_str[(col) + (row - 6) * 8]
+                self.board[row][col].piece = white_str[(col) + (row - 6) * 8]
         # Adding black pawns
         for row in range(0, 2):
             for col in range(COLS):
-                self.board[row][col] = black_str[col + row * 8]
+                self.board[row][col].piece = black_str[col + row * 8]
         
         
     def update_pieces(self, screen):
         #iterate through the matrix and update the screen
         for row in range(ROWS):
             for col in range(COLS):
-                input = self.board[row][col]
+                input = self.board[row][col].piece
                 match input:
                     case "P": #white pawns
                         screen.blit(white_pawn, (100 * col, 100 * row))
@@ -81,15 +91,3 @@ class Board:
 
 
 
-class Tile:
-    def __init__(self, row, col):
-        # piece and history determine previous and current pieces on the tile
-        self.piece = None
-        self.history = []
-
-        # x and y determine the position of the tile
-        self.row = row
-        self.col = col
-
-        # color determined by the x and y pos of the tile
-        self.color = None

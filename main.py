@@ -19,7 +19,7 @@ board = Board()
 
 
 def main():
-    print(board.board)
+    print (board.board)
     while True:
         # Main loop, listening to different events/inputs
         for event in pygame.event.get():
