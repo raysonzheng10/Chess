@@ -24,31 +24,32 @@ def retrieve_mouse_pos(event):
         mouse_pos = pygame.mouse.get_pos()
         row = mouse_pos[1] // 100
         col = mouse_pos[0] // 100
-        board.selected_tile = [row, col]
+        board.selected_x = col
+        board.selected_y = row
 
 # Function that handles exiting the game
-def game_quit(event):
+def check_game_quit(event):
     if event.type == pygame.QUIT:
         pygame.quit()
         exit()
 
-    
+
+# main function getting called !!!
 def main():
     while True:
         # Main loop, listening to different events/inputs
         for event in pygame.event.get():
-            # Puts the pos of mouse click into board.selected_tile
             retrieve_mouse_pos(event)
 
-            # Quit functionality
-            game_quit(event)
+            check_game_quit(event)
+
             
         
         board.draw_tiles(screen)
         board.update_pieces(screen)
 
         pygame.display.update()
-        clock.tick(60)
+        clock.tick(30)
 
 
 main()

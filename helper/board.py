@@ -16,7 +16,8 @@ class Board:
     def __init__(self):
         # generate the tiles that make up the board
         self.board = []
-        self.selected_tile = None
+        self.selected_x = None
+        self.selected_y = None
 
         self.create_board()
     
@@ -26,11 +27,12 @@ class Board:
         for row in range(ROWS):
             for col in range(COLS):
                 if (row + col) % 2 == 1:
-                    screen.blit(green_surface, (100 * row, 100 * col))
+                    screen.blit(green_surface, (100 * col, 100 * row))
                 else:
-                    screen.blit(gray_surface, (100 * row, 100 * col))
-        if self.selected_tile != None:
-            screen.blit(yellow_surface, (100 * self.selected_tile[1], 100 * self.selected_tile[0]))
+                    screen.blit(gray_surface, (100 * col, 100 * row))
+        # Check if a valid piece has been selected
+        if (self.selected_x  or self.selected_y != None) and (self.board[self.selected_y][self.selected_x].piece) != None:
+            screen.blit(yellow_surface, (100 * self.selected_x, 100 * self.selected_y))
                     
           
     def create_board(self):
