@@ -37,8 +37,6 @@ def check_game_quit(event):
 
 
 
-
-
 # main function getting called !!!
 def main():
     while True:
@@ -48,13 +46,11 @@ def main():
 
             check_game_quit(event)
 
-            
-
         board.draw_all(screen)
         board.update_pieces(screen)
-        
 
-        
+
+
         pygame.display.update()
         clock.tick(30)
 

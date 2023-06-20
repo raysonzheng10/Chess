@@ -6,6 +6,8 @@ WIDTH, HEIGHT = 800, 800
 ROWS, COLS = 8, 8
 TILE_SIZE = WIDTH / COLS
 
+MOVE_CIRCLE_SIZE = 17  #pixels 
+
 #Colors
 LIGHT_GREEN = (127, 166, 80) #chess.com green tiles
 GRAY = (238, 238, 210) #chess.com gray tiles

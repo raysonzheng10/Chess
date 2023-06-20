@@ -1,5 +1,5 @@
 import pygame
-from helper.constants import gray_surface, green_surface, yellow_surface, GREEN_MOVE, GRAY_MOVE, ROWS, COLS
+from helper.constants import gray_surface, green_surface, yellow_surface, GREEN_MOVE, GRAY_MOVE, MOVE_CIRCLE_SIZE, ROWS, COLS
 from pieces.pieces import white_pawn, white_bishop, white_king, white_knight, white_queen, white_rook, black_pawn, black_bishop, black_king, black_knight,black_queen, black_rook
 
 
@@ -38,12 +38,15 @@ class Board:
                 tile = self.board[row][col]
                 if tile.color == 1:
                     holder = green_surface
-                    # if tile.selected:
-                    #     pygame.draw.circle(holder, (0,0,0), (100 * col + 50, 100 * row + 50), 25)
+                    if tile.selected == True:
+                        pygame.draw.circle(holder, GREEN_MOVE, (100 * col + 50, 100 * row - 50), MOVE_CIRCLE_SIZE)
                     screen.blit(holder, (100 * col, 100 * row))
                         
                 else:
-                    screen.blit(gray_surface, (100 * col, 100 * row))
+                    holder = gray_surface
+                    if tile.selected == True:
+                        pygame.draw.circle(holder, GRAY_MOVE, (100 * col + 50, 100 * row + 50), MOVE_CIRCLE_SIZE)
+                    screen.blit(holder, (100 * col, 100 * row))
                 
 
                     
