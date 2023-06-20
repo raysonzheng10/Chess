@@ -47,9 +47,9 @@ def main():
 
             check_game_quit(event)
 
-
+        board.update_movement()
         board.draw_all(screen)
-
+        
 
 
         pygame.display.update()

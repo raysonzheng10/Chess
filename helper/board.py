@@ -15,6 +15,17 @@ class Tile:
         # true means put movement circle, else no movement circle
         self.movable = False
     
+    # Function to get the movement circle to pop up
+    def draw_move(self, screen):
+        if self.movable == True:
+            if self.color == 1:
+                pygame.draw.circle(screen, GRAY_MOVE, (100 * self.col + 50, 100 * self.row - 50), MOVE_CIRCLE_SIZE)
+            else:
+                pygame.draw.circle(screen, GREEN_MOVE, (100 * self.col + 50, 100 * self.row - 50), MOVE_CIRCLE_SIZE)
+        # reset the movable attribute when you click on something else
+        self.movable = False
+
+
 class Board:
     def __init__(self):
         # .board is the matrix to index into
@@ -36,18 +47,14 @@ class Board:
         for row in range(ROWS):
             for col in range(COLS):
                 tile = self.board[row][col]
-
+        
                 if tile.color == 1:
-                    holder = green_surface
-                    if tile.movable == True:
-                        pygame.draw.circle(holder, GREEN_MOVE, (100 * col + 50, 100 * row - 50), MOVE_CIRCLE_SIZE)
-                    screen.blit(holder, (100 * col, 100 * row))
+                    screen.blit(green_surface, (100 * col, 100 * row))
 
                 else:
-                    holder = gray_surface
-                    if tile.movable == True:
-                        pygame.draw.circle(holder, GRAY_MOVE, (100 * col + 50, 100 * row + 50), MOVE_CIRCLE_SIZE)
-                    screen.blit(holder, (100 * col, 100 * row))
+                    screen.blit(gray_surface, (100 * col, 100 * row))
+                tile.draw_move(screen)
+
                 
 
                     
@@ -110,9 +117,13 @@ class Board:
         for row in range(0, 2):
             for col in range(COLS):
                 self.board[row][col].piece = black_str[col + row * 8]
+
         
 
 
-        
+    def update_movement(self):
+
+        if (self.select_col  or self.select_row != None):
+            self.board[self.select_row - 1][self.select_col].movable = True
     
 
