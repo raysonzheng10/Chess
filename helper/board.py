@@ -1,5 +1,5 @@
 import pygame
-from helper.constants import gray_surface, green_surface, yellow_surface, GREEN_MOVE, GRAY_MOVE, MOVE_CIRCLE_SIZE, ROWS, COLS
+from helper.constants import gray_surface, green_surface, whiteH_surface, blackH_surface, GREEN_MOVE, GRAY_MOVE, MOVE_CIRCLE_SIZE, ROWS, COLS
 from pieces.pieces import white_pawn, white_bishop, white_king, white_knight, white_queen, white_rook, black_pawn, black_bishop, black_king, black_knight,black_queen, black_rook
 
 
@@ -12,8 +12,8 @@ class Tile:
         # if color == 0, white tile, if color == 1, black tile
         self.color = (row + col) % 2
 
-        # if true, means that this square can be moved to, if false, no
-        self.selected = True
+        # true means put movement circle, else no movement circle
+        self.movable = False
     
 class Board:
     def __init__(self):
@@ -36,15 +36,16 @@ class Board:
         for row in range(ROWS):
             for col in range(COLS):
                 tile = self.board[row][col]
+
                 if tile.color == 1:
                     holder = green_surface
-                    if tile.selected == True:
+                    if tile.movable == True:
                         pygame.draw.circle(holder, GREEN_MOVE, (100 * col + 50, 100 * row - 50), MOVE_CIRCLE_SIZE)
                     screen.blit(holder, (100 * col, 100 * row))
-                        
+
                 else:
                     holder = gray_surface
-                    if tile.selected == True:
+                    if tile.movable == True:
                         pygame.draw.circle(holder, GRAY_MOVE, (100 * col + 50, 100 * row + 50), MOVE_CIRCLE_SIZE)
                     screen.blit(holder, (100 * col, 100 * row))
                 
@@ -53,8 +54,10 @@ class Board:
 
         # Check if a valid piece has been selected
         if (self.select_col  or self.select_row != None) and (self.board[self.select_row][self.select_col].piece) != None:
-            screen.blit(yellow_surface, (100 * self.select_col, 100 * self.select_row))
-
+            if self.board[self.select_row][self.select_col].color == 1:
+                screen.blit(blackH_surface, (100 * self.select_col, 100 * self.select_row))
+            else:
+                screen.blit(whiteH_surface, (100 * self.select_col, 100 * self.select_row))
         
         
         # put in all the piece surfaces
@@ -108,9 +111,8 @@ class Board:
             for col in range(COLS):
                 self.board[row][col].piece = black_str[col + row * 8]
         
+
+
         
-    def update_pieces(self, screen):
-        pass
-    
     
 
