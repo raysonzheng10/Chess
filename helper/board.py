@@ -1,62 +1,60 @@
 import pygame
-from helper.constants import gray_surface, green_surface, yellow_surface, ROWS, COLS
+from helper.constants import gray_surface, green_surface, yellow_surface, GREEN_MOVE, GRAY_MOVE, ROWS, COLS
 from pieces.pieces import white_pawn, white_bishop, white_king, white_knight, white_queen, white_rook, black_pawn, black_bishop, black_king, black_knight,black_queen, black_rook
 
 
 class Tile:
     def __init__(self, row, col, piece):
-        # piece tells what team and type of piece is on this tile
         self.piece = piece
-
-        # x and y determine the position of the tile
         self.row = row
         self.col = col
+        
+        # if color == 0, white tile, if color == 1, black tile
+        self.color = (row + col) % 2
+
+        # if true, means that this square can be moved to, if false, no
+        self.selected = True
     
 class Board:
     def __init__(self):
-        # generate the tiles that make up the board
+        # .board is the matrix to index into
         self.board = []
-        self.selected_x = None
-        self.selected_y = None
+
+        # represents the row/col of the selected tile if any
+        self.select_col = None
+        self.select_row = None
+
+        # represents if a actual piece is selected, true = yes, false = no
+
 
         self.create_board()
     
     # function to draw the board, input takes in the screen 
-    def draw_tiles(self, screen):
+    def draw_all(self, screen):
+
         # iterate through the board and draw the tiles
         for row in range(ROWS):
             for col in range(COLS):
-                if (row + col) % 2 == 1:
-                    screen.blit(green_surface, (100 * col, 100 * row))
+                tile = self.board[row][col]
+                if tile.color == 1:
+                    holder = green_surface
+                    # if tile.selected:
+                    #     pygame.draw.circle(holder, (0,0,0), (100 * col + 50, 100 * row + 50), 25)
+                    screen.blit(holder, (100 * col, 100 * row))
+                        
                 else:
                     screen.blit(gray_surface, (100 * col, 100 * row))
-        # Check if a valid piece has been selected
-        if (self.selected_x  or self.selected_y != None) and (self.board[self.selected_y][self.selected_x].piece) != None:
-            screen.blit(yellow_surface, (100 * self.selected_x, 100 * self.selected_y))
-                    
-          
-    def create_board(self):
-        #Create 8x8 empty matrix
-        for row in range(ROWS):
-            holder = []
-            for col in range(COLS):
-                holder.append(Tile(row, col, None))
-            self.board.append(holder)
+                
 
-        white_str = "PPPPPPPPRNBQKBNR"
-        black_str = "rnbqkbnrpppppppp"
-        # Adding white pieces
-        for row in range(6, 8):
-            for col in range(COLS):
-                self.board[row][col].piece = white_str[(col) + (row - 6) * 8]
-        # Adding black pawns
-        for row in range(0, 2):
-            for col in range(COLS):
-                self.board[row][col].piece = black_str[col + row * 8]
+                    
+
+        # Check if a valid piece has been selected
+        if (self.select_col  or self.select_row != None) and (self.board[self.select_row][self.select_col].piece) != None:
+            screen.blit(yellow_surface, (100 * self.select_col, 100 * self.select_row))
+
         
         
-    def update_pieces(self, screen):
-        #iterate through the matrix and update the screen
+        # put in all the piece surfaces
         for row in range(ROWS):
             for col in range(COLS):
                 input = self.board[row][col].piece
@@ -85,6 +83,31 @@ class Board:
                         screen.blit(white_king, (100 * col, 100 * row))
                     case "k": #black king
                         screen.blit(black_king, (100 * col, 100 * row))
+    
+                    
+          
+    def create_board(self):
+        #Create 8x8 empty matrix
+        for row in range(ROWS):
+            holder = []
+            for col in range(COLS):
+                holder.append(Tile(row, col, None))
+            self.board.append(holder)
+
+        white_str = "PPPPPPPPRNBQKBNR"
+        black_str = "rnbqkbnrpppppppp"
+        # Adding white pieces
+        for row in range(6, 8):
+            for col in range(COLS):
+                self.board[row][col].piece = white_str[(col) + (row - 6) * 8]
+        # Adding black pawns
+        for row in range(0, 2):
+            for col in range(COLS):
+                self.board[row][col].piece = black_str[col + row * 8]
+        
+        
+    def update_pieces(self, screen):
+        pass
     
     
 

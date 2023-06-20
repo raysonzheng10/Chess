@@ -17,6 +17,8 @@ clock = pygame.time.Clock()
 #CREATE BOARD
 board = Board()
 
+
+
 # Function that puts the pos of mouse click into board.selected_tile
 def retrieve_mouse_pos(event):
     if event.type == pygame.MOUSEBUTTONDOWN:
@@ -24,14 +26,17 @@ def retrieve_mouse_pos(event):
         mouse_pos = pygame.mouse.get_pos()
         row = mouse_pos[1] // 100
         col = mouse_pos[0] // 100
-        board.selected_x = col
-        board.selected_y = row
+        board.select_col = col
+        board.select_row = row
 
 # Function that handles exiting the game
 def check_game_quit(event):
     if event.type == pygame.QUIT:
         pygame.quit()
         exit()
+
+
+
 
 
 # main function getting called !!!
@@ -44,10 +49,12 @@ def main():
             check_game_quit(event)
 
             
-        
-        board.draw_tiles(screen)
-        board.update_pieces(screen)
 
+        board.draw_all(screen)
+        board.update_pieces(screen)
+        
+
+        
         pygame.display.update()
         clock.tick(30)
 
