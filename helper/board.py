@@ -18,10 +18,11 @@ class Tile:
     # Function to get the movement circle to pop up
     def draw_move(self, screen):
         if self.movable == True:
-            if self.color == 1:
-                pygame.draw.circle(screen, GRAY_MOVE, (100 * self.col + 50, 100 * self.row - 50), MOVE_CIRCLE_SIZE)
+            print("drawing", self.row, self.col)
+            if self.color == 0:
+                pygame.draw.circle(screen, GRAY_MOVE, (100 * self.col + 50, 100 * self.row + 50), MOVE_CIRCLE_SIZE)
             else:
-                pygame.draw.circle(screen, GREEN_MOVE, (100 * self.col + 50, 100 * self.row - 50), MOVE_CIRCLE_SIZE)
+                pygame.draw.circle(screen, GREEN_MOVE, (100 * self.col + 50, 100 * self.row + 50), MOVE_CIRCLE_SIZE)
         # reset the movable attribute when you click on something else
         self.movable = False
 
@@ -57,14 +58,13 @@ class Board:
 
                 
 
-                    
-
         # Check if a valid piece has been selected
         if (self.select_col  or self.select_row != None) and (self.board[self.select_row][self.select_col].piece) != None:
             if self.board[self.select_row][self.select_col].color == 1:
                 screen.blit(blackH_surface, (100 * self.select_col, 100 * self.select_row))
             else:
                 screen.blit(whiteH_surface, (100 * self.select_col, 100 * self.select_row))
+
         
         
         # put in all the piece surfaces
@@ -118,12 +118,23 @@ class Board:
             for col in range(COLS):
                 self.board[row][col].piece = black_str[col + row * 8]
 
+
+
         
 
 
     def update_movement(self):
+        possible_moves = []
+        if (self.select_col or self.select_row != None):
+            x = self.select_col
+            y = self.select_row
+            tile = self.board[y][x]
 
-        if (self.select_col  or self.select_row != None):
-            self.board[self.select_row - 1][self.select_col].movable = True
+            if tile.piece == "r" or tile.piece == "R":
+                for i in range(tile.col, COLS):
+                    possible_moves.append([tile.row, i])
+
+        for move in possible_moves:
+            self.board[move[0]][move[1]].movable = True
     
 
