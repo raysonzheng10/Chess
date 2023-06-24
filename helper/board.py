@@ -1,7 +1,7 @@
 import pygame
 from helper.constants import gray_surface, green_surface, whiteH_surface, blackH_surface, GREEN_MOVE, GRAY_MOVE, MOVE_CIRCLE_SIZE, ROWS, COLS
 from pieces.pieces import white_pawn, white_bishop, white_king, white_knight, white_queen, white_rook, black_pawn, black_bishop, black_king, black_knight,black_queen, black_rook
-
+from helper.movement import Rook
 
 class Tile:
     def __init__(self, row, col, piece):
@@ -18,7 +18,6 @@ class Tile:
     # Function to get the movement circle to pop up
     def draw_move(self, screen):
         if self.movable == True:
-            print("drawing", self.row, self.col)
             if self.color == 0:
                 pygame.draw.circle(screen, GRAY_MOVE, (100 * self.col + 50, 100 * self.row + 50), MOVE_CIRCLE_SIZE)
             else:
@@ -96,7 +95,12 @@ class Board:
                         screen.blit(white_king, (100 * col, 100 * row))
                     case "k": #black king
                         screen.blit(black_king, (100 * col, 100 * row))
-    
+        for row in range(ROWS):
+            for col in range(COLS):
+                if type(self.board[row][col].piece).__name__ == "Rook" and self.board[row][col].piece.color == "w":
+                    screen.blit(white_rook, (100 * col, 100 * row))
+                    print("this is a rook")
+            
                     
           
     def create_board(self):
@@ -113,10 +117,13 @@ class Board:
         for row in range(6, 8):
             for col in range(COLS):
                 self.board[row][col].piece = white_str[(col) + (row - 6) * 8]
+
+
         # Adding black pawns
         for row in range(0, 2):
             for col in range(COLS):
                 self.board[row][col].piece = black_str[col + row * 8]
+        self.board[3][4].piece = Rook(3, 4, "w")
 
 
 

@@ -53,7 +53,7 @@ def main():
 
 
         pygame.display.update()
-        clock.tick(2)
+        clock.tick(30)
 
 
 
