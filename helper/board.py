@@ -1,7 +1,7 @@
 import pygame
 from helper.constants import gray_surface, green_surface, whiteH_surface, blackH_surface, GREEN_MOVE, GRAY_MOVE, MOVE_CIRCLE_SIZE, ROWS, COLS
 from pieces.pieces import white_pawn, white_bishop, white_king, white_knight, white_queen, white_rook, black_pawn, black_bishop, black_king, black_knight,black_queen, black_rook
-from helper.movement import Rook
+from helper.movement import Pawn, Knight, Bishop, Rook, Queen, King
 
 class Tile:
     def __init__(self, row, col, piece):
@@ -69,37 +69,41 @@ class Board:
         # put in all the piece surfaces
         for row in range(ROWS):
             for col in range(COLS):
-                input = self.board[row][col].piece
+                tile = self.board[row][col]
+                input = type(tile.piece).__name__
                 match input:
-                    case "P": #white pawns
-                        screen.blit(white_pawn, (100 * col, 100 * row))
-                    case "p": #black pawns
-                        screen.blit(black_pawn, (100 * col, 100 * row))
-                    case "R": #white rooks
-                        screen.blit(white_rook, (100 * col, 100 * row))
-                    case "r": #black rooks
-                        screen.blit(black_rook, (100 * col, 100 * row))
-                    case "N": #white knights
-                        screen.blit(white_knight, (100 * col, 100 * row))
-                    case "n": #black knights
-                        screen.blit(black_knight, (100 * col, 100 * row))
-                    case "B": #white bishop
-                        screen.blit(white_bishop, (100 * col, 100 * row))
-                    case "b": #black bishop
-                        screen.blit(black_bishop, (100 * col, 100 * row))
-                    case "Q": #white queen
-                        screen.blit(white_queen, (100 * col, 100 * row))
-                    case "q": #black queen
-                        screen.blit(black_queen, (100 * col, 100 * row))
-                    case "K": #white king
-                        screen.blit(white_king, (100 * col, 100 * row))
-                    case "k": #black king
-                        screen.blit(black_king, (100 * col, 100 * row))
-        for row in range(ROWS):
-            for col in range(COLS):
-                if type(self.board[row][col].piece).__name__ == "Rook" and self.board[row][col].piece.color == "w":
-                    screen.blit(white_rook, (100 * col, 100 * row))
-                    print("this is a rook")
+                    case "Pawn": #white pawns
+                        if tile.piece.color == "w":
+                            screen.blit(white_pawn, (100 * col, 100 * row))
+                        else:
+                            screen.blit(black_pawn, (100 * col, 100 * row))
+                    case "Bishop":
+                        if tile.piece.color == "w":
+                            screen.blit(white_bishop, (100 * col, 100 * row))
+                        else:
+                            screen.blit(black_bishop, (100 * col, 100 * row))
+                    case "Knight":
+                        if tile.piece.color == "w":
+                            screen.blit(white_knight, (100 * col, 100 * row))
+                        else:
+                            screen.blit(black_knight, (100 * col, 100 * row))
+                    case "Rook":
+                        if tile.piece.color == "w":
+                            screen.blit(white_rook, (100 * col, 100 * row))
+                        else:
+                            screen.blit(black_rook, (100 * col, 100 * row))
+                    case "Queen":
+                        if tile.piece.color == "w":
+                            screen.blit(white_queen, (100 * col, 100 * row))
+                        else:
+                            screen.blit(black_queen, (100 * col, 100 * row))
+                    case "King":
+                        if tile.piece.color == "w":
+                            screen.blit(white_king, (100 * col, 100 * row))
+                        else:
+                            screen.blit(black_king, (100 * col, 100 * row))
+
+
             
                     
           
@@ -116,13 +120,39 @@ class Board:
         # Adding white pieces
         for row in range(6, 8):
             for col in range(COLS):
-                self.board[row][col].piece = white_str[(col) + (row - 6) * 8]
+                input = white_str[(col) + (row - 6) * 8]
+                match input:
+                    case "P":
+                        self.board[row][col].piece = Pawn(row, col, "w")
+                    case "N": 
+                        self.board[row][col].piece = Knight(row, col, "w")
+                    case "B":
+                        self.board[row][col].piece = Bishop(row, col, "w")
+                    case "R":
+                        self.board[row][col].piece = Rook(row, col, "w")
+                    case "Q":
+                        self.board[row][col].piece = Queen(row, col, "w")
+                    case "K":
+                        self.board[row][col].piece = King(row, col, "w")
 
 
         # Adding black pawns
         for row in range(0, 2):
             for col in range(COLS):
-                self.board[row][col].piece = black_str[col + row * 8]
+                input = black_str[col + row * 8]
+                match input:
+                    case "p":
+                        self.board[row][col].piece = Pawn(row, col, "b")
+                    case "n": 
+                        self.board[row][col].piece = Knight(row, col, "b")
+                    case "b":
+                        self.board[row][col].piece = Bishop(row, col, "b")
+                    case "r":
+                        self.board[row][col].piece = Rook(row, col, "b")
+                    case "q":
+                        self.board[row][col].piece = Queen(row, col, "b")
+                    case "k":
+                        self.board[row][col].piece = King(row, col, "b")
         self.board[3][4].piece = Rook(3, 4, "w")
 
 
@@ -137,9 +167,10 @@ class Board:
             y = self.select_row
             tile = self.board[y][x]
 
-            if tile.piece == "r" or tile.piece == "R":
-                for i in range(tile.col, COLS):
-                    possible_moves.append([tile.row, i])
+
+            #change this to a case match thing
+            if type(tile.piece).__name__ == "Rook":
+                possible_moves = tile.piece.move()
 
         for move in possible_moves:
             self.board[move[0]][move[1]].movable = True
