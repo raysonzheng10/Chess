@@ -20,9 +20,6 @@ class Tile:
     
     # Function to get the movement circle/attack to pop up
     def draw_move(self, screen):
-        if self.movable and self.piece != None:
-            self.attacked = True
-            
         if self.attacked == True:
             if self.color == 0:
                 pygame.draw.circle(screen, GRAY_MOVE, (100 * self.col + 50, 100 * self.row + 50), ATTACK_CIRCLE_SIZE)
@@ -30,7 +27,7 @@ class Tile:
             else:
                 pygame.draw.circle(screen, GREEN_MOVE, (100 * self.col + 50, 100 * self.row + 50), ATTACK_CIRCLE_SIZE)
                 pygame.draw.circle(screen, LIGHT_GREEN, (100 * self.col + 50, 100 * self.row + 50), INSIDE_CIRCLE)
-        if self.movable == True:
+        elif self.movable == True:
             if self.color == 0:
                 pygame.draw.circle(screen, GRAY_MOVE, (100 * self.col + 50, 100 * self.row + 50), MOVE_CIRCLE_SIZE)
             else:
@@ -49,8 +46,6 @@ class Board:
         # represents the row/col of the selected tile if any
         self.select_col = None
         self.select_row = None
-
-        # represents if a actual piece is selected, true = yes, false = no
 
 
         self.create_board()
@@ -165,7 +160,9 @@ class Board:
                         self.board[row][col].piece = Queen(row, col, "b")
                     case "k":
                         self.board[row][col].piece = King(row, col, "b")
+        #testing
         self.board[3][4].piece = Rook(3, 4, "w")
+        # self.board[2][4].piece = Pawn(2, 4, "w")
 
 
 
@@ -179,9 +176,12 @@ class Board:
 
             #change this to a case match thing
             if type(tile.piece).__name__ == "Rook":
-                possible_moves = tile.piece.move()
+                possible_moves = tile.piece.move(self.board)
 
         for move in possible_moves:
             self.board[move[0]][move[1]].movable = True
+            if self.board[move[0]][move[1]].piece != None:
+                self.board[move[0]][move[1]].attacked = True
+        
     
 
