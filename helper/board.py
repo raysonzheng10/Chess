@@ -1,5 +1,5 @@
 import pygame
-from helper.constants import gray_surface, green_surface, whiteH_surface, blackH_surface, GREEN_MOVE, GRAY_MOVE, MOVE_CIRCLE_SIZE, ROWS, COLS
+from helper.constants import gray_surface, green_surface, whiteH_surface, blackH_surface, LIGHT_GREEN, GRAY, GREEN_MOVE, GRAY_MOVE, MOVE_CIRCLE_SIZE, ATTACK_CIRCLE_SIZE, INSIDE_CIRCLE, ROWS, COLS
 from pieces.pieces import white_pawn, white_bishop, white_king, white_knight, white_queen, white_rook, black_pawn, black_bishop, black_king, black_knight,black_queen, black_rook
 from helper.movement import Pawn, Knight, Bishop, Rook, Queen, King
 
@@ -14,16 +14,31 @@ class Tile:
 
         # true means put movement circle, else no movement circle
         self.movable = False
+        self.attacked = False
+
+
     
-    # Function to get the movement circle to pop up
+    # Function to get the movement circle/attack to pop up
     def draw_move(self, screen):
+        if self.movable and self.piece != None:
+            self.attacked = True
+            
+        if self.attacked == True:
+            if self.color == 0:
+                pygame.draw.circle(screen, GRAY_MOVE, (100 * self.col + 50, 100 * self.row + 50), ATTACK_CIRCLE_SIZE)
+                pygame.draw.circle(screen, GRAY, (100 * self.col + 50, 100 * self.row + 50), INSIDE_CIRCLE)
+            else:
+                pygame.draw.circle(screen, GREEN_MOVE, (100 * self.col + 50, 100 * self.row + 50), ATTACK_CIRCLE_SIZE)
+                pygame.draw.circle(screen, LIGHT_GREEN, (100 * self.col + 50, 100 * self.row + 50), INSIDE_CIRCLE)
         if self.movable == True:
             if self.color == 0:
                 pygame.draw.circle(screen, GRAY_MOVE, (100 * self.col + 50, 100 * self.row + 50), MOVE_CIRCLE_SIZE)
             else:
                 pygame.draw.circle(screen, GREEN_MOVE, (100 * self.col + 50, 100 * self.row + 50), MOVE_CIRCLE_SIZE)
+        
         # reset the movable attribute when you click on something else
         self.movable = False
+        self.attacked = False
 
 
 class Board:
@@ -103,9 +118,6 @@ class Board:
                         else:
                             screen.blit(black_king, (100 * col, 100 * row))
 
-
-            
-                    
           
     def create_board(self):
         #Create 8x8 empty matrix
@@ -155,9 +167,6 @@ class Board:
                         self.board[row][col].piece = King(row, col, "b")
         self.board[3][4].piece = Rook(3, 4, "w")
 
-
-
-        
 
 
     def update_movement(self):
