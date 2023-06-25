@@ -47,7 +47,10 @@ def main():
 
             check_game_quit(event)
 
-        board.update_movement()
+        board.process_movement()
+
+        board.display_movement()
+
         board.draw_all(screen)
         
 

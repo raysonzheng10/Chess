@@ -34,8 +34,8 @@ class Tile:
                 pygame.draw.circle(screen, GREEN_MOVE, (100 * self.col + 50, 100 * self.row + 50), MOVE_CIRCLE_SIZE)
         
         # reset the movable attribute when you click on something else
-        self.movable = False
-        self.attacked = False
+        # self.movable = False
+        # self.attacked = False
 
 
 class Board:
@@ -46,6 +46,7 @@ class Board:
         # represents the row/col of the selected tile if any
         self.select_col = None
         self.select_row = None
+        self.selected_piece = None
 
 
         self.create_board()
@@ -160,28 +161,60 @@ class Board:
                         self.board[row][col].piece = Queen(row, col, "b")
                     case "k":
                         self.board[row][col].piece = King(row, col, "b")
+                    
         #testing
-        self.board[3][4].piece = Rook(3, 4, "w")
-        # self.board[2][4].piece = Pawn(2, 4, "w")
+        self.board[3][2].piece = Rook(3, 2, "w")
+        self.board[3][4].piece = Pawn(3, 4, "b")
 
 
 
-    def update_movement(self):
+
+    def display_movement(self):
         possible_moves = []
         if (self.select_col or self.select_row != None):
-            x = self.select_col
-            y = self.select_row
-            tile = self.board[y][x]
+            col = self.select_col
+            row = self.select_row
+            tile = self.board[row][col]
 
-
+            input = type(tile.piece).__name__
+            if input != "NoneType":
+                self.selected_piece = tile.piece
             #change this to a case match thing
-            if type(tile.piece).__name__ == "Rook":
-                possible_moves = tile.piece.move(self.board)
+            match input:
+                case "Rook":
+                    possible_moves = tile.piece.move(self.board)
 
         for move in possible_moves:
             self.board[move[0]][move[1]].movable = True
             if self.board[move[0]][move[1]].piece != None:
                 self.board[move[0]][move[1]].attacked = True
+
+    
+    # Function to update the board matrix, occurs before draw_all
+    def process_movement(self):
+        # Make sure a tile is selected and that a previous piece has been selected
+        if (self.select_col or self.select_row != None):
+            tile = self.board[self.select_row][self.select_col]
+            if self.selected_piece != None:
+                if tile.movable == True:
+                    tile.piece = self.selected_piece
+                    tile.piece.row = self.select_row
+                    tile.piece.col = self.select_col
+                    self.reset_movement()
+            else:
+                self.reset_movement()
+
+        # Reset for future 
+        self.selected_piece = None
+
+
+    def reset_movement(self):
+        for row in range(ROWS):
+            for col in range(COLS):
+                tile = self.board[row][col]
+                tile.movable = False
+                tile.attacked = False
+            
         
     
 
