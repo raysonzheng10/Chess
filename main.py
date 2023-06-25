@@ -26,6 +26,13 @@ def retrieve_mouse_pos(event):
         mouse_pos = pygame.mouse.get_pos()
         row = mouse_pos[1] // 100
         col = mouse_pos[0] // 100
+
+        if board.select_col and board.select_row == None:
+            board.prev_col = col
+            board.prev_row = row
+        else:
+            board.prev_row = board.select_row
+            board.prev_col = board.select_col
         board.select_col = col
         board.select_row = row
 

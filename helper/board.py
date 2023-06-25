@@ -48,6 +48,10 @@ class Board:
         self.select_row = None
         self.selected_piece = None
 
+        # previous tile selected, if any
+        self.prev_row = None
+        self.prev_col = None
+
 
         self.create_board()
     
@@ -195,14 +199,23 @@ class Board:
         # Make sure a tile is selected and that a previous piece has been selected
         if (self.select_col or self.select_row != None):
             tile = self.board[self.select_row][self.select_col]
+            
+            # if piece has been selected, check if that selected tile is movable
             if self.selected_piece != None:
+                #if it is, move the piece there, and delete the piece at its past location
                 if tile.movable == True:
+                    # put piece at new location
                     tile.piece = self.selected_piece
                     tile.piece.row = self.select_row
                     tile.piece.col = self.select_col
+
+                    self.board[self.prev_row][self.prev_col].piece = None
+
                     self.reset_movement()
+                # else, if not movable, just reset
                 else:
                     self.reset_movement()
+            #if no piece selected, just reset
             else:
                 self.reset_movement()
 
