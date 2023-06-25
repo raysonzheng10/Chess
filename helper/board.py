@@ -201,6 +201,8 @@ class Board:
                     tile.piece.row = self.select_row
                     tile.piece.col = self.select_col
                     self.reset_movement()
+                else:
+                    self.reset_movement()
             else:
                 self.reset_movement()
 
@@ -208,6 +210,7 @@ class Board:
         self.selected_piece = None
 
 
+    # Reset all .movable and .attacked attributes for tiles
     def reset_movement(self):
         for row in range(ROWS):
             for col in range(COLS):
