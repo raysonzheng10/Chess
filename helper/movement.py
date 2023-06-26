@@ -54,7 +54,7 @@ class Bishop:
                 break
         #downright movement
         for col in range(self.col + 1, 8):
-            if self.row + col - self.col < 0:
+            if self.row + col - self.col > 7:
                 break
             tile = board[self.row + col - self.col][col]
             if tile.piece != None and tile.piece.color == self.color:
@@ -64,7 +64,7 @@ class Bishop:
                 break
         #downleft movement
         for col in range(self.col - 1, -1, -1):
-            if self.row - col + self.col < 0:
+            if self.row - col + self.col > 7:
                 break
             tile = board[self.row - col + self.col][col]
             if tile.piece != None and tile.piece.color == self.color:
@@ -127,8 +127,80 @@ class Queen:
         self.col = col
         self.color = color
 
+        
+
     def move(self, board):
         moves = []
+        # diagonal movements
+        for col in range(self.col + 1, 8):
+            if self.row - col + self.col < 0:
+                break
+            tile = board[self.row - col + self.col][col]
+            if tile.piece != None and tile.piece.color == self.color:
+                break
+            moves.append([self.row - col + self.col, col])
+            if tile.piece != None:
+                break
+        for col in range(self.col - 1, -1, -1):
+            if self.row + col - self.col < 0:
+                break
+            tile = board[self.row + col - self.col][col]
+            if tile.piece != None and tile.piece.color == self.color:
+                break
+            moves.append([self.row + col - self.col, col])
+            if tile.piece != None:
+                break
+        for col in range(self.col + 1, 8):
+            if self.row + col - self.col > 7:
+                break
+            tile = board[self.row + col - self.col][col]
+            if tile.piece != None and tile.piece.color == self.color:
+                break
+            moves.append([self.row + col - self.col, col])
+            if tile.piece != None:
+                break
+        for col in range(self.col - 1, -1, -1):
+            if self.row - col + self.col > 7:
+                break
+            tile = board[self.row - col + self.col][col]
+            if tile.piece != None and tile.piece.color == self.color:
+                break
+            moves.append([self.row - col + self.col, col])
+            if tile.piece != None:
+                break
+        for row in range(self.row - 1, -1, -1):
+            tile = board[row][self.col]
+            if tile.piece != None and tile.piece.color == self.color:
+                break
+            moves.append([row, self.col])
+            if tile.piece != None:
+                break
+
+        # rook movements
+        for row in range(self.row + 1, 8):
+            tile = board[row][self.col]
+            if tile.piece != None and tile.piece.color == self.color:
+                break
+            moves.append([row, self.col])
+            if tile.piece != None:
+                break
+        for col in range(self.col - 1, -1, -1):
+            tile = board[self.row][col]
+            if tile.piece != None and tile.piece.color == self.color:
+                break
+            moves.append([self.row, col])
+            if tile.piece != None:
+                break
+        for col in range(self.col + 1, 8):
+            tile = board[self.row][col]
+            if tile.piece != None and tile.piece.color == self.color:
+                break
+            moves.append([self.row, col])
+            if tile.piece != None:
+                break
+
+
+
         return moves
 
 
