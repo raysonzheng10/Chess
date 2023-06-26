@@ -5,6 +5,10 @@ class Pawn:
         self.row = row
         self.col = col
         self.color = color
+    
+    def move(self, board):
+        moves = []
+        return moves
 
 
 class Knight:
@@ -14,6 +18,10 @@ class Knight:
         self.col = col
         self.color = color
 
+    def move(self, board):
+        moves = []
+        return moves
+
 
 class Bishop:
     def __init__(self, row, col, color):
@@ -22,6 +30,49 @@ class Bishop:
         self.col = col
         self.color = color
 
+    def move(self, board):
+        moves = []
+        #upright movement
+        for col in range(self.col + 1, 8):
+            if self.row - col + self.col < 0:
+                break
+            tile = board[self.row - col + self.col][col]
+            if tile.piece != None and tile.piece.color == self.color:
+                break
+            moves.append([self.row - col + self.col, col])
+            if tile.piece != None:
+                break
+        #upleft movement
+        for col in range(self.col - 1, -1, -1):
+            if self.row + col - self.col < 0:
+                break
+            tile = board[self.row + col - self.col][col]
+            if tile.piece != None and tile.piece.color == self.color:
+                break
+            moves.append([self.row + col - self.col, col])
+            if tile.piece != None:
+                break
+        #downright movement
+        for col in range(self.col + 1, 8):
+            if self.row + col - self.col < 0:
+                break
+            tile = board[self.row + col - self.col][col]
+            if tile.piece != None and tile.piece.color == self.color:
+                break
+            moves.append([self.row + col - self.col, col])
+            if tile.piece != None:
+                break
+        #downleft movement
+        for col in range(self.col - 1, -1, -1):
+            if self.row - col + self.col < 0:
+                break
+            tile = board[self.row - col + self.col][col]
+            if tile.piece != None and tile.piece.color == self.color:
+                break
+            moves.append([self.row - col + self.col, col])
+            if tile.piece != None:
+                break
+        return moves
 
 class Rook:
     def __init__(self, row, col, color):
@@ -76,6 +127,10 @@ class Queen:
         self.col = col
         self.color = color
 
+    def move(self, board):
+        moves = []
+        return moves
+
 
 class King:
     def __init__(self, row, col, color):
@@ -83,3 +138,7 @@ class King:
         self.row = row
         self.col = col
         self.color = color
+
+    def move(self, board):
+        moves = []
+        return moves

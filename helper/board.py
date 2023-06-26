@@ -169,25 +169,40 @@ class Board:
         #testing
         self.board[3][2].piece = Rook(3, 2, "w")
         self.board[3][4].piece = Pawn(3, 4, "b")
+        self.board[5][0].piece = Bishop(5,0,"w")
 
 
 
 
     def display_movement(self):
         possible_moves = []
+        # Check if something has been selected
         if (self.select_col or self.select_row != None):
             col = self.select_col
             row = self.select_row
             tile = self.board[row][col]
 
             input = type(tile.piece).__name__
+            # If nothing has been selected prior, simply change selected piece
             if input != "NoneType":
                 self.selected_piece = tile.piece
-            #change this to a case match thing
+
+            #display moves based on piece, moves are placed into possible_moves    
             match input:
+                case "Pawn":
+                    possible_moves = tile.piece.move(self.board)
+                case "Bishop":
+                    possible_moves = tile.piece.move(self.board)
+                case "Knight":
+                    possible_moves = tile.piece.move(self.board)
                 case "Rook":
                     possible_moves = tile.piece.move(self.board)
+                case "Queen":
+                    possible_moves = tile.piece.move(self.board)
+                case "King":
+                    possible_moves = tile.piece.move(self.board)
 
+        # iterate through possibel moves and update tile attributes
         for move in possible_moves:
             self.board[move[0]][move[1]].movable = True
             if self.board[move[0]][move[1]].piece != None:
