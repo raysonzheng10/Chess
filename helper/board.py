@@ -52,6 +52,8 @@ class Board:
         self.prev_row = None
         self.prev_col = None
 
+        # Figure out whose turn it is
+        self.turn = 0
 
         self.create_board()
     
@@ -182,6 +184,14 @@ class Board:
             row = self.select_row
             tile = self.board[row][col]
 
+            # Check if it's the correct turn
+            if self.turn % 2 == 0 and tile.piece != None:
+                if tile.piece.color == "b":
+                    return
+            elif self.turn % 2 == 1 and tile.piece != None:
+                if tile.piece.color == "w":
+                    return
+                
             input = type(tile.piece).__name__
             # If nothing has been selected prior, simply change selected piece
             if input != "NoneType":
@@ -215,6 +225,7 @@ class Board:
         if (self.select_col or self.select_row != None):
             tile = self.board[self.select_row][self.select_col]
             
+
             # if piece has been selected, check if that selected tile is movable
             if self.selected_piece != None:
                 #if it is, move the piece there, and delete the piece at its past location
@@ -227,6 +238,7 @@ class Board:
                     self.board[self.prev_row][self.prev_col].piece = None
 
                     self.reset_movement()
+                    self.turn += 1
                 # else, if not movable, just reset
                 else:
                     self.reset_movement()
@@ -234,7 +246,7 @@ class Board:
             else:
                 self.reset_movement()
 
-        # Reset for future 
+        # prepare for future
         self.selected_piece = None
 
 

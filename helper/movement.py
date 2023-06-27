@@ -261,7 +261,14 @@ class King:
         self.row = row
         self.col = col
         self.color = color
+        self.check = False
 
     def move(self, board):
         moves = []
+        row = self.row
+        col = self.col
+
+        #up,left,down,right
+
+
         return moves
