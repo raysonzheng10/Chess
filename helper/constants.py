@@ -17,6 +17,7 @@ GREEN_HIGHLIGHT = (187, 203, 43) #chess.com green highlight tile
 GRAY_HIGHLIGHT = (247, 247, 105) #chess.comm gray highlight tile
 GREEN_MOVE = (106, 135, 77) #chess.com movement circle green
 GRAY_MOVE = (214, 214, 189) #chess.com movement circle gray
+RED_CHECK = (234, 58, 48) #lichess red check
 
 
 # Surfaces created from above colors

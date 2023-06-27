@@ -61,8 +61,7 @@ class Pawn:
     
     
     def promotion(self, board, color):
-        board[self.row][self.col].piece = Rook(self.row, self.col, "b")
-        pass
+        board[self.row][self.col].piece = Queen(self.row, self.col, color)
 
 
 class Knight:

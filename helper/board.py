@@ -1,5 +1,5 @@
 import pygame
-from helper.constants import gray_surface, green_surface, whiteH_surface, blackH_surface, LIGHT_GREEN, GRAY, GREEN_MOVE, GRAY_MOVE, MOVE_CIRCLE_SIZE, ATTACK_CIRCLE_SIZE, INSIDE_CIRCLE, ROWS, COLS
+from helper.constants import gray_surface, green_surface, whiteH_surface, blackH_surface, LIGHT_GREEN, GRAY, GREEN_MOVE, GRAY_MOVE, RED_CHECK, MOVE_CIRCLE_SIZE, ATTACK_CIRCLE_SIZE, INSIDE_CIRCLE, ROWS, COLS
 from pieces.pieces import white_pawn, white_bishop, white_king, white_knight, white_queen, white_rook, black_pawn, black_bishop, black_king, black_knight,black_queen, black_rook
 from helper.movement import Pawn, Knight, Bishop, Rook, Queen, King
 
@@ -169,9 +169,9 @@ class Board:
                         self.board[row][col].piece = King(row, col, "b")
                     
         #testing
-        self.board[3][2].piece = Rook(3, 2, "w")
-        self.board[3][4].piece = Knight(3, 4, "w")
-        self.board[5][0].piece = Bishop(5,0,"w")
+        # self.board[3][2].piece = Rook(3, 2, "w")
+        # self.board[3][4].piece = Knight(3, 4, "w")
+        self.board[5][0].piece = Pawn(5,0,"b")
 
 
 
@@ -184,13 +184,6 @@ class Board:
             row = self.select_row
             tile = self.board[row][col]
 
-            # Check if it's the correct turn
-            if self.turn % 2 == 0 and tile.piece != None:
-                if tile.piece.color == "b":
-                    return
-            elif self.turn % 2 == 1 and tile.piece != None:
-                if tile.piece.color == "w":
-                    return
                 
             input = type(tile.piece).__name__
             # If nothing has been selected prior, simply change selected piece
@@ -212,11 +205,21 @@ class Board:
                 case "King":
                     possible_moves = tile.piece.move(self.board)
 
+            # Check if it's the correct turn
+            if self.turn % 2 == 0 and tile.piece != None:
+                if tile.piece.color == "b":
+                    return
+            elif self.turn % 2 == 1 and tile.piece != None:
+                if tile.piece.color == "w":
+                    return
+                
         # iterate through possibel moves and update tile attributes
         for move in possible_moves:
             self.board[move[0]][move[1]].movable = True
             if self.board[move[0]][move[1]].piece != None:
                 self.board[move[0]][move[1]].attacked = True
+                if type(self.board[move[0]][move[1]].piece).__name__ == "King":
+                    self.board[move[0]][move[1]].piece.check = True
 
     
     # Function to update the board matrix, occurs before draw_all
@@ -249,7 +252,9 @@ class Board:
         # prepare for future
         self.selected_piece = None
 
-
+    # return true/false based on whether a king is checked or not
+    def is_checked(self):
+        pass
     # Reset all .movable and .attacked attributes for tiles
     def reset_movement(self):
         for row in range(ROWS):
