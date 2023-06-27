@@ -8,7 +8,61 @@ class Pawn:
     
     def move(self, board):
         moves = []
+        #black pawn
+        if self.color == "b":
+            # Promotion
+            if self.row == 7:
+                self.promotion(board, "b")
+            # From starting pos, get 2 steps
+            elif self.row == 1:
+                for row in range(2, 4):
+                    tile = board[row][self.col]
+                    if tile.piece != None:
+                        break
+                    moves.append([row, self.col])
+            # 1 step elsewhere
+            else:
+                if board[self.row + 1][self.col].piece == None:
+                    moves.append([self.row + 1, self.col])
+
+            # add potential to do diagonal attacks
+            # downright diagonal
+            if self.col + 1 < 8 and self.row != 7:
+                if board[self.row + 1][self.col + 1].piece != None and board[self.row + 1][self.col + 1].piece.color != self.color:
+                    moves.append([self.row + 1, self.col + 1])
+            # downleft diagonal
+            if self.col - 1 > -1 and self.row !=7:
+                if board[self.row + 1][self.col - 1].piece != None and board[self.row + 1][self.col - 1].piece.color != self.color:
+                    moves.append([self.row + 1, self.col - 1])
+            
+            # En passant
+
+        # white pawn
+        else:
+            if self.row == 0:
+                self.promotion(board, "w")
+            elif self.row == 6:
+                for row in range(5, 3, -1):
+                    tile = board[row][self.col]
+                    if tile.piece != None:
+                        break
+                    moves.append([row, self.col])
+            else:
+                if board[self.row - 1][self.col].piece == None:
+                    moves.append([self.row - 1, self.col])
+
+            if self.col + 1 < 8 and self.row != 0:
+                if board[self.row - 1][self.col + 1].piece != None and board[self.row - 1][self.col + 1].piece.color != self.color:
+                    moves.append([self.row - 1, self.col + 1])
+            if self.col - 1 > -1 and self.row != 0:
+                if board[self.row - 1][self.col - 1].piece != None and board[self.row - 1][self.col - 1].piece.color != self.color:
+                    moves.append([self.row - 1, self.col - 1])
         return moves
+    
+    
+    def promotion(self, board, color):
+        board[self.row][self.col].piece = Rook(self.row, self.col, "b")
+        pass
 
 
 class Knight:
@@ -81,7 +135,6 @@ class Rook:
         self.col = col
         self.color = color
     
-    # All possible moves
     def move(self, board):
         moves = []
         #up movement
@@ -126,8 +179,6 @@ class Queen:
         self.row = row
         self.col = col
         self.color = color
-
-        
 
     def move(self, board):
         moves = []
