@@ -74,6 +74,37 @@ class Knight:
 
     def move(self, board):
         moves = []
+        row = self.row
+        col = self.col
+
+        #left moves
+        if col - 2 > -1 and row + 1 < 8:
+            if board[row + 1][col - 2].piece == None or board[row + 1][col - 2].piece.color != self.color:
+                moves.append([row + 1, col - 2])
+        if col - 2 > -1 and row - 1 > -1:
+            if board[row - 1][col - 2].piece == None or board[row - 1][col - 2].piece.color != self.color:
+                moves.append([row - 1, col - 2])
+        #right moves
+        if col + 2 < 8 and row + 1 < 8:
+            if board[row + 1][col + 2].piece == None or board[row + 1][col + 2].piece.color != self.color:
+                moves.append([row + 1, col + 2])
+        if col + 2 < 8 and row - 1 > -1:
+            if board[row - 1][col + 2].piece == None or board[row - 1][col + 2].piece.color != self.color:
+                moves.append([row - 1, col + 2])
+        #up moves
+        if row - 2 > -1 and col + 1 < 8:
+            if board[row - 2][col + 1].piece == None or board[row - 2][col + 1].piece.color != self.color:
+                moves.append([row - 2, col + 1])
+        if row - 2 > -1 and col - 1 > -1:
+            if board[row - 2][col - 1].piece == None or board[row - 2][col - 1].piece.color != self.color:
+                moves.append([row - 2, col - 1])
+        #down moves
+        if row + 2 < 8 and col + 1 < 8:
+            if board[row + 2][col + 1].piece == None or board[row + 2][col + 1].piece.color != self.color:
+                moves.append([row + 2, col + 1])
+        if row + 2 < 8 and col - 1 > -1:
+            if board[row + 2][col - 1].piece == None or board[row + 2][col - 1].piece.color != self.color:
+                moves.append([row + 2, col - 1])
         return moves
 
 

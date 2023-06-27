@@ -170,7 +170,7 @@ class Board:
                     
         #testing
         self.board[3][2].piece = Rook(3, 2, "w")
-        self.board[3][4].piece = Pawn(3, 4, "b")
+        self.board[3][4].piece = Knight(3, 4, "w")
         self.board[5][0].piece = Bishop(5,0,"w")
 
 
