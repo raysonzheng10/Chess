@@ -19,8 +19,10 @@ class Tile:
 
     
     # Function to get the movement circle/attack to pop up
-    def draw_move(self, screen):
-        if self.attacked == True:
+    def draw_move(self, screen, board):
+        if type(self.piece).__name__ == "King" and self.piece.is_checked(board):
+            pygame.draw.circle(screen, RED_CHECK, (100 * self.col + 50, 100 * self.row + 50), ATTACK_CIRCLE_SIZE) 
+        elif self.attacked == True:
             if self.color == 0:
                 pygame.draw.circle(screen, GRAY_MOVE, (100 * self.col + 50, 100 * self.row + 50), ATTACK_CIRCLE_SIZE)
                 pygame.draw.circle(screen, GRAY, (100 * self.col + 50, 100 * self.row + 50), INSIDE_CIRCLE)
@@ -70,7 +72,7 @@ class Board:
 
                 else:
                     screen.blit(gray_surface, (100 * col, 100 * row))
-                tile.draw_move(screen)
+                tile.draw_move(screen, self.board)
 
                 
 
@@ -254,6 +256,7 @@ class Board:
 
     # return true/false based on whether a king is checked or not
     def is_checked(self):
+
         pass
     # Reset all .movable and .attacked attributes for tiles
     def reset_movement(self):

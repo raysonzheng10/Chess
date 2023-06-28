@@ -1,4 +1,6 @@
 #This file will contain all the legal moves for different kinds of pieces
+from helper.constants import ROWS, COLS
+
 class Pawn:
     def __init__(self, row, col, color):
         self.value = 1
@@ -302,3 +304,15 @@ class King:
 
 
         return moves
+    
+    def is_checked(self, board):
+        for row in range(ROWS):
+            for col in range(COLS):
+                tile = board[row][col]
+                # if it is a enemy piece
+                if tile.piece != None and tile.piece.color != self.color:
+                    # check if enemy piece attacks king's row
+                    attacked = tile.piece.move(board)
+                    if [self.row, self.col] in attacked:
+                        return True
+        return False
