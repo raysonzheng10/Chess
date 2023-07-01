@@ -1,5 +1,6 @@
 # constant variables that will not be changed
 import pygame
+pygame.init()
 
 # Width and Height for the general window, Number of rows/columns, size of each tile
 WIDTH, HEIGHT = 800, 800
@@ -31,7 +32,14 @@ blackH_surface.fill(GREEN_HIGHLIGHT)
 whiteH_surface = pygame.Surface((100,100))
 whiteH_surface.fill(GRAY_HIGHLIGHT)
 
-white_win_screen = pygame.Surface((800,800))
-white_win_screen.fill((255, 255, 255))
-black_win_screen = pygame.Surface((800,800))
-black_win_screen.fill((0,0,0))
+
+
+text_font = pygame.font.SysFont("Times New Roman", 50, True)
+
+white_win_text = text_font.render("White Wins!", True, "White", "black")
+white_win_screen = white_win_text.get_rect()
+white_win_screen.center = (WIDTH / 2, HEIGHT / 2)
+
+black_win_text = text_font.render("Black Wins!", True, "Black", "White")
+black_win_screen = black_win_text.get_rect()
+black_win_screen.center = (WIDTH / 2, HEIGHT / 2)
