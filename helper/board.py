@@ -195,17 +195,17 @@ class Board:
             #display moves based on piece, moves are placed into possible_moves    
             match input:
                 case "Pawn":
-                    possible_moves = tile.piece.move(self.board)
+                    possible_moves = tile.piece.legal_moves(self.board, tile.piece.move(self.board))
                 case "Bishop":
-                    possible_moves = tile.piece.move(self.board)
+                    possible_moves = tile.piece.legal_moves(self.board, tile.piece.move(self.board))
                 case "Knight":
-                    possible_moves = tile.piece.move(self.board)
+                    possible_moves = tile.piece.legal_moves(self.board, tile.piece.move(self.board))
                 case "Rook":
                     possible_moves = tile.piece.legal_moves(self.board, tile.piece.move(self.board))
                 case "Queen":
-                    possible_moves = tile.piece.move(self.board)
+                    possible_moves = tile.piece.legal_moves(self.board, tile.piece.move(self.board))
                 case "King":
-                    possible_moves = tile.piece.move(self.board)
+                    possible_moves = tile.piece.legal_moves(self.board, tile.piece.move(self.board))
 
             # Check if it's the correct turn
             if self.turn % 2 == 0 and tile.piece != None:
