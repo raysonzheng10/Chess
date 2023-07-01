@@ -226,6 +226,7 @@ class Rook:
         self.row = row
         self.col = col
         self.color = color
+        self.castle = True
     
     def move(self, board):
         moves = []
@@ -393,6 +394,7 @@ class King:
         self.col = col
         self.color = color
         self.check = False
+        self.castle = True
 
     def move(self, board):
         moves = []
@@ -427,7 +429,7 @@ class King:
                 tile = board[row][col]
                 # if it is a enemy piece
                 if tile.piece != None and tile.piece.color != self.color:
-                    # check if enemy piece attacks king's row
+                    # check if enemy piece attacks king's row and col
                     attacked = tile.piece.move(board)
                     if [self.row, self.col] in attacked:
                         return True
@@ -446,4 +448,26 @@ class King:
             # if after the emulated move, king is not checked, we can play that move
             if not copy_board[move[0]][move[1]].piece.is_checked(copy_board):
                 legal_moves.append(move)
+        
         return legal_moves
+    
+
+    def castling(self, board):
+        #if king is in check, cannot castle
+        if self.is_checked():
+            return 0
+        
+        # Check if king moved before
+        if self.castle:
+            # Check if left rook has moved before
+            if type(board[self.row][self.col - 4].piece).__name__ == "Rook" and board[self.row][self.col - 4].piece.castle:
+                # Check if the square in between the king and desired location is attacked
+                for row in range(ROWS):
+                    for col in range(COLS):
+                        tile = board[row][col]
+                        if tile.piece != None and tile.piece.color != self.color:
+                            attacked = tile.piece.legal_moves(board, tile.piece.move(board))
+                            if [self.row, self.col - 1] in attacked:
+                                return 0
+                return -1
+                

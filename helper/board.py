@@ -241,6 +241,10 @@ class Board:
 
                     self.reset_movement()
                     self.turn += 1
+
+                    # if the movement was done by a king/rook, remove their castle status
+                    if type(tile.piece).__name__ == "King" or "Rook":
+                        tile.piece.castle = False
                 # else, if not movable, just reset
                 else:
                     self.reset_movement()
