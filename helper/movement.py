@@ -1,6 +1,7 @@
 #This file will contain all the legal moves for different kinds of pieces
+import copy
 from helper.constants import ROWS, COLS
-
+        
 class Pawn:
     def __init__(self, row, col, color):
         self.value = 1
@@ -203,6 +204,28 @@ class Rook:
                 break
 
         return moves
+
+    def legal_moves(self, board, moves):
+        legal_moves = []
+        for row in range(ROWS):
+            for col in range(COLS):
+                tile = board[row][col]
+                # Check if ally king is checked
+                if type(tile.piece).__name__ == "King" and tile.piece.color == self.color:
+                    for move in moves:
+                        # create a deep copy of the board and emulate the move
+                        copy_board = copy.deepcopy(board)
+                        copy_board[move[0]][move[1]].piece = copy_board[self.row][self.col].piece
+                        copy_board[self.row][self.col].piece = None
+                        copy_board[move[0]][move[1]].piece.row = move[0]
+                        copy_board[move[0]][move[1]].piece.col = move[1]
+                        # if after the emulated move, king is not checked, we can play that move
+                        if not tile.piece.is_checked(copy_board):
+                            legal_moves.append(move)
+        return legal_moves
+                        
+
+
 
 
 class Queen:

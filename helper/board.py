@@ -173,7 +173,7 @@ class Board:
         #testing
         # self.board[3][2].piece = Rook(3, 2, "w")
         # self.board[3][4].piece = Knight(3, 4, "w")
-        self.board[5][0].piece = Pawn(5,0,"b")
+        # self.board[5][0].piece = Pawn(5,0,"b")
 
 
 
@@ -201,7 +201,7 @@ class Board:
                 case "Knight":
                     possible_moves = tile.piece.move(self.board)
                 case "Rook":
-                    possible_moves = tile.piece.move(self.board)
+                    possible_moves = tile.piece.legal_moves(self.board, tile.piece.move(self.board))
                 case "Queen":
                     possible_moves = tile.piece.move(self.board)
                 case "King":
