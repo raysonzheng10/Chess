@@ -1,5 +1,5 @@
 import pygame
-from helper.constants import gray_surface, green_surface, whiteH_surface, blackH_surface, LIGHT_GREEN, GRAY, GREEN_MOVE, GRAY_MOVE, RED_CHECK, MOVE_CIRCLE_SIZE, ATTACK_CIRCLE_SIZE, INSIDE_CIRCLE, ROWS, COLS
+from helper.constants import gray_surface, green_surface, whiteH_surface, blackH_surface, white_win_screen, black_win_screen, LIGHT_GREEN, GRAY, GREEN_MOVE, GRAY_MOVE, RED_CHECK, MOVE_CIRCLE_SIZE, ATTACK_CIRCLE_SIZE, INSIDE_CIRCLE, ROWS, COLS
 from pieces.pieces import white_pawn, white_bishop, white_king, white_knight, white_queen, white_rook, black_pawn, black_bishop, black_king, black_knight,black_queen, black_rook
 from helper.movement import Pawn, Knight, Bishop, Rook, Queen, King
 
@@ -117,6 +117,13 @@ class Board:
                             screen.blit(white_king, (100 * col, 100 * row))
                         else:
                             screen.blit(black_king, (100 * col, 100 * row))
+        
+
+        #check for winners
+        if self.check_win() == 1:
+            screen.blit(white_win_screen, (0,0))
+        if self.check_win() == -1:
+            screen.blit(black_win_screen, (0,0))
 
           
     def create_board(self):
@@ -166,12 +173,6 @@ class Board:
                     case "k":
                         self.board[row][col].piece = King(row, col, "b")
                     
-        #testing
-        # self.board[3][2].piece = Rook(3, 2, "w")
-        # self.board[3][4].piece = Knight(3, 4, "w")
-        # self.board[5][0].piece = Pawn(5,0,"b")
-
-
 
 
     def display_movement(self):
@@ -251,6 +252,27 @@ class Board:
         self.selected_piece = None
 
 
+    # checks board to see if someone won, returns 0 if no winner, returns 1 if white wins, returns -1 if black wins
+    def check_win(self):
+        # if turn mod 2 = 0, white turn, check white if it has any legal moves
+        total_moves = []
+        if self.turn % 2 == 0:
+            for row in range(ROWS):
+                for col in range(COLS):
+                    tile = self.board[row][col]
+                    if tile.piece != None and tile.piece.color == "w":
+                        if len(tile.piece.legal_moves(self.board, tile.piece.move(self.board))) > 0:
+                            return 0
+            return -1
+        else:
+            for row in range(ROWS):
+                for col in range(COLS):
+                    tile = self.board[row][col]
+                    if tile.piece != None and tile.piece.color == "b":
+                        if len(tile.piece.legal_moves(self.board, tile.piece.move(self.board))) > 0:
+                            return 0
+            return 1
+                            
     # Reset all .movable and .attacked attributes for tiles
     def reset_movement(self):
         for row in range(ROWS):
