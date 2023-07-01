@@ -74,8 +74,6 @@ class Board:
                     screen.blit(gray_surface, (100 * col, 100 * row))
                 tile.draw_move(screen, self.board)
 
-                
-
         # Check if a valid piece has been selected
         if (self.select_col  or self.select_row != None) and (self.board[self.select_row][self.select_col].piece) != None:
             if self.board[self.select_row][self.select_col].color == 1:
@@ -83,8 +81,6 @@ class Board:
             else:
                 screen.blit(whiteH_surface, (100 * self.select_col, 100 * self.select_row))
 
-        
-        
         # put in all the piece surfaces
         for row in range(ROWS):
             for col in range(COLS):
@@ -215,7 +211,7 @@ class Board:
                 if tile.piece.color == "w":
                     return
                 
-        # iterate through possibel moves and update tile attributes
+        # iterate through possible moves and update tile attributes
         for move in possible_moves:
             self.board[move[0]][move[1]].movable = True
             if self.board[move[0]][move[1]].piece != None:
@@ -254,10 +250,7 @@ class Board:
         # prepare for future
         self.selected_piece = None
 
-    # return true/false based on whether a king is checked or not
-    def is_checked(self):
 
-        pass
     # Reset all .movable and .attacked attributes for tiles
     def reset_movement(self):
         for row in range(ROWS):

@@ -399,8 +399,25 @@ class King:
         row = self.row
         col = self.col
 
-        #up,left,down,right
+        #up,down,left, right
+        if row != 0 and (board[row - 1][col].piece == None or board[row - 1][col].piece.color != self.color):
+            moves.append([row - 1, col])
+        if row != 7 and (board[row + 1][col].piece == None or board[row + 1][col].piece.color != self.color):
+            moves.append([row + 1, col])
+        if col != 0 and (board[row][col - 1].piece == None or board[row ][col - 1].piece.color != self.color):
+            moves.append([row , col - 1])
+        if col != 7 and (board[row][col + 1].piece == None or board[row ][col + 1].piece.color != self.color):
+            moves.append([row , col + 1])
 
+        #diagonals
+        if row != 0 and col != 7 and (board[row - 1][col + 1].piece == None or board[row - 1][col + 1].piece.color != self.color):
+            moves.append([row - 1, col + 1])
+        if row != 7 and col != 7 and (board[row + 1][col + 1].piece == None or board[row + 1][col + 1].piece.color != self.color):
+            moves.append([row + 1, col + 1])
+        if row != 0 and col != 0 and (board[row - 1][col - 1].piece == None or board[row - 1][col - 1].piece.color != self.color):
+            moves.append([row - 1, col - 1])
+        if row != 7 and col != 0 and (board[row + 1][col - 1].piece == None or board[row + 1][col - 1].piece.color != self.color):
+            moves.append([row + 1, col - 1])
 
         return moves
     
@@ -419,19 +436,14 @@ class King:
 
     def legal_moves(self, board, moves):
         legal_moves = []
-        for row in range(ROWS):
-            for col in range(COLS):
-                tile = board[row][col]
-                # Check if ally king is checked
-                if type(tile.piece).__name__ == "King" and tile.piece.color == self.color:
-                    for move in moves:
-                        # create a deep copy of the board and emulate the move
-                        copy_board = copy.deepcopy(board)
-                        copy_board[move[0]][move[1]].piece = copy_board[self.row][self.col].piece
-                        copy_board[self.row][self.col].piece = None
-                        copy_board[move[0]][move[1]].piece.row = move[0]
-                        copy_board[move[0]][move[1]].piece.col = move[1]
-                        # if after the emulated move, king is not checked, we can play that move
-                        if not tile.piece.is_checked(copy_board):
-                            legal_moves.append(move)
+        for move in moves:
+            # create a deep copy of the board and emulate the move
+            copy_board = copy.deepcopy(board)
+            copy_board[move[0]][move[1]].piece = copy_board[self.row][self.col].piece
+            copy_board[self.row][self.col].piece = None
+            copy_board[move[0]][move[1]].piece.row = move[0]
+            copy_board[move[0]][move[1]].piece.col = move[1]
+            # if after the emulated move, king is not checked, we can play that move
+            if not copy_board[move[0]][move[1]].piece.is_checked(copy_board):
+                legal_moves.append(move)
         return legal_moves
