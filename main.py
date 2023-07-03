@@ -1,7 +1,7 @@
 #IMPORT IMPORTANT FILES
 import pygame
 from sys import exit
-from helper.constants import WIDTH, HEIGHT, GRAY, LIGHT_GREEN
+from helper.constants import WIDTH, HEIGHT
 from helper.board import Board
 
 

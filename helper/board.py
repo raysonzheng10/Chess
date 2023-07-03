@@ -232,7 +232,17 @@ class Board:
             if self.selected_piece != None:
                 #if it is, move the piece there, and delete the piece at its past location
                 if tile.movable == True:
+                    
                     # put piece at new location
+                    if type(self.selected_piece).__name__ == "King":
+                        if self.select_col - self.prev_col == 2:
+                            self.board[self.select_row][5].piece = self.board[self.select_row][7].piece
+                            self.board[self.select_row][5].piece.col = 5
+                            self.board[self.select_row][7].piece = None
+                        if self.select_col - self.prev_col == -2:
+                            self.board[self.select_row][3].piece = self.board[self.select_row][0].piece
+                            self.board[self.select_row][3].piece.col = 3
+                            self.board[self.select_row][0].piece = None
                     tile.piece = self.selected_piece
                     tile.piece.row = self.select_row
                     tile.piece.col = self.select_col
@@ -259,7 +269,6 @@ class Board:
     # checks board to see if someone won, returns 0 if no winner, returns 1 if white wins, returns -1 if black wins
     def check_win(self):
         # if turn mod 2 = 0, white turn, check white if it has any legal moves
-        total_moves = []
         if self.turn % 2 == 0:
             for row in range(ROWS):
                 for col in range(COLS):
