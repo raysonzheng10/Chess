@@ -155,7 +155,7 @@ class Board:
                         self.board[row][col].piece = King(row, col, "w")
 
 
-        # Adding black pawns
+        # Adding black pieces
         for row in range(0, 2):
             for col in range(COLS):
                 input = black_str[col + row * 8]
@@ -172,7 +172,7 @@ class Board:
                         self.board[row][col].piece = Queen(row, col, "b")
                     case "k":
                         self.board[row][col].piece = King(row, col, "b")
-                    
+
 
 
     def display_movement(self):

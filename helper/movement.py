@@ -421,51 +421,6 @@ class King:
         if row != 7 and col != 0 and (board[row + 1][col - 1].piece == None or board[row + 1][col - 1].piece.color != self.color):
             moves.append([row + 1, col - 1])
 
-        # # Add castling moves
-        # if self.castle:
-        #     # left rook
-        #     if type(board[row][col - 4].piece).__name__ != Rook:
-        #         pass
-        #     elif (board[row][col - 4].piece.castle) and (board[self.row][self.col - 1].piece == None) and (board[self.row][self.col - 2].piece == None) and (board[self.row][self.col - 3].piece == None):
-
-
-        left, right = True, True
-
-        # check if the king has moved before
-        if self.castle:
-            # Check if left rook has moved before
-            if type(board[self.row][self.col - 4].piece).__name__ == "Rook" and board[self.row][self.col - 4].piece.castle:
-                # Check if there are any pieces in between king and rook
-                if board[self.row][self.col - 1].piece or board[self.row][self.col - 2].piece or board[self.row][self.col - 3].piece != None:
-                    left = False
-                else:
-                    # Check if the square in between the king and desired location is attacked
-                    for row in range(ROWS):
-                        for col in range(COLS):
-                            tile = board[row][col]
-                            if tile.piece != None and tile.piece.color != self.color and type(tile.piece).__name__ != "King":
-                                attacked = tile.piece.move(board)
-                                if [self.row, self.col - 1] in attacked:
-                                    left = False
-                                    break
-                if left:
-                    moves.append([self.row, self.col - 2])
-            # same thing as above but with right rook
-            if type(board[self.row][self.col + 3].piece).__name__ == "Rook" and board[self.row][self.col + 3].piece.castle:
-                if board[self.row][self.col + 1].piece or board[self.row][self.col + 2].piece != None:
-                    right = False
-                else:
-                    for row in range(ROWS):
-                        for col in range(COLS):
-                            tile = board[row][col]
-                            if tile.piece != None and tile.piece.color != self.color and type(tile.piece).__name__ != "King":
-                                attacked = tile.piece.move(board)
-                                if [self.row, self.col + 1] in attacked:
-                                    right = False
-                                    break
-                if right:
-                    moves.append([self.row, self.col + 2])
-
         return moves
     
     def is_checked(self, board):
@@ -493,6 +448,48 @@ class King:
             # if after the emulated move, king is not checked, we can play that move
             if not copy_board[move[0]][move[1]].piece.is_checked(copy_board):
                 legal_moves.append(move)
+
+        legal_moves += self.castling(board)
+
         return legal_moves
     
 
+    def castling(self, board):
+        castle = []
+
+        left, right = True, True
+        # check if the king has moved before
+        if self.castle and not self.is_checked(board):
+            # Check if left rook has moved before
+            if type(board[self.row][self.col - 4].piece).__name__ == "Rook" and board[self.row][self.col - 4].piece.castle:
+                # Check if there are any pieces in between king and rook
+                if board[self.row][self.col - 1].piece or board[self.row][self.col - 2].piece or board[self.row][self.col - 3].piece != None:
+                    left = False
+                else:
+                    # Check if the square in between the king and desired location is attacked
+                    for row in range(ROWS):
+                        for col in range(COLS):
+                            tile = board[row][col]
+                            if tile.piece != None and tile.piece.color != self.color and type(tile.piece).__name__ != "King":
+                                attacked = tile.piece.move(board)
+                                if [self.row, self.col - 1] in attacked:
+                                    left = False
+                                    break
+                if left:
+                    castle.append([self.row, self.col - 2])
+            # same thing as above but with right rook
+            if type(board[self.row][self.col + 3].piece).__name__ == "Rook" and board[self.row][self.col + 3].piece.castle:
+                if board[self.row][self.col + 1].piece or board[self.row][self.col + 2].piece != None:
+                    right = False
+                else:
+                    for row in range(ROWS):
+                        for col in range(COLS):
+                            tile = board[row][col]
+                            if tile.piece != None and tile.piece.color != self.color and type(tile.piece).__name__ != "King":
+                                attacked = tile.piece.move(board)
+                                if [self.row, self.col + 1] in attacked:
+                                    right = False
+                                    break
+                if right:
+                    castle.append([self.row, self.col + 2])
+        return castle
