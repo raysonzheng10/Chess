@@ -1,6 +1,7 @@
 # constant variables that will not be changed
 import pygame
 pygame.init()
+pygame.mixer.init()
 
 # Width and Height for the general window, Number of rows/columns, size of each tile
 WIDTH, HEIGHT = 800, 800
