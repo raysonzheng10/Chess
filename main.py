@@ -18,7 +18,6 @@ clock = pygame.time.Clock()
 board = Board()
 
 
-
 # Function that puts the pos of mouse click into board.selected_tile
 def retrieve_mouse_pos(event):
     if event.type == pygame.MOUSEBUTTONDOWN:
@@ -60,10 +59,9 @@ def main():
 
         board.draw_all(screen)
         
-
-
         pygame.display.update()
         clock.tick(30)
+
 
 
 

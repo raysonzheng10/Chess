@@ -34,6 +34,7 @@ whiteH_surface.fill(GRAY_HIGHLIGHT)
 
 
 
+# Win screen text
 text_font = pygame.font.SysFont("Times New Roman", 50, True)
 
 white_win_text = text_font.render("White Wins!", True, "White", "black")
@@ -43,3 +44,9 @@ white_win_screen.center = (WIDTH / 2, HEIGHT / 2)
 black_win_text = text_font.render("Black Wins!", True, "Black", "White")
 black_win_screen = black_win_text.get_rect()
 black_win_screen.center = (WIDTH / 2, HEIGHT / 2)
+
+
+# SFX
+move_self_sfx = pygame.mixer.Sound('sfx/move-self.mp3')
+capture_sfx = pygame.mixer.Sound('sfx/capture.mp3')
+castle_sfx = pygame.mixer.Sound('sfx/castle.mp3')

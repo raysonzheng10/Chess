@@ -1,5 +1,5 @@
 import pygame
-from helper.constants import gray_surface, green_surface, whiteH_surface, blackH_surface, white_win_text, white_win_screen, black_win_text, black_win_screen, LIGHT_GREEN, GRAY, GREEN_MOVE, GRAY_MOVE, RED_CHECK, MOVE_CIRCLE_SIZE, ATTACK_CIRCLE_SIZE, INSIDE_CIRCLE, ROWS, COLS
+from helper.constants import move_self_sfx, capture_sfx, castle_sfx, gray_surface, green_surface, whiteH_surface, blackH_surface, white_win_text, white_win_screen, black_win_text, black_win_screen, LIGHT_GREEN, GRAY, GREEN_MOVE, GRAY_MOVE, RED_CHECK, MOVE_CIRCLE_SIZE, ATTACK_CIRCLE_SIZE, INSIDE_CIRCLE, ROWS, COLS
 from pieces.pieces import white_pawn, white_bishop, white_king, white_knight, white_queen, white_rook, black_pawn, black_bishop, black_king, black_knight,black_queen, black_rook
 from helper.movement import Pawn, Knight, Bishop, Rook, Queen, King
 
@@ -231,24 +231,33 @@ class Board:
             # if piece has been selected, check if that selected tile is movable
             if self.selected_piece != None:
                 #if it is, move the piece there, and delete the piece at its past location
-                if tile.movable == True:
-                    
+                if tile.movable:
+                    castle = False
                     # put piece at new location
                     if type(self.selected_piece).__name__ == "King":
                         if self.select_col - self.prev_col == 2:
                             self.board[self.select_row][5].piece = self.board[self.select_row][7].piece
                             self.board[self.select_row][5].piece.col = 5
                             self.board[self.select_row][7].piece = None
+                            castle = True
                         if self.select_col - self.prev_col == -2:
                             self.board[self.select_row][3].piece = self.board[self.select_row][0].piece
                             self.board[self.select_row][3].piece.col = 3
                             self.board[self.select_row][0].piece = None
+                            castle = True
                     tile.piece = self.selected_piece
                     tile.piece.row = self.select_row
                     tile.piece.col = self.select_col
 
+                    # Play sfx
+                    if castle:
+                        castle_sfx.play()
+                    elif tile.attacked:
+                        capture_sfx.play()
+                    else:
+                        move_self_sfx.play()
+                    # Preparing for future moves
                     self.board[self.prev_row][self.prev_col].piece = None
-
                     self.reset_movement()
                     self.turn += 1
 
