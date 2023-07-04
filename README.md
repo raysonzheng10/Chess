@@ -1,5 +1,5 @@
 # Chess
-#### Video Demo : Coming soon
+#### Video Demo : https://youtu.be/eVCar5PABAY
 #### Description:
 This was created as my final project for Harvard's CS50 course. It's a recreation of chess, created in python using the pygame library. The game runs on pygame's display with a clock speed of 30 to detect player clicks. The game's board is represented and processed through a _Board_ class, that stores the board as a 8x8 matrix with each square being an instance of a separate _Tile_ class. The _Board_ and _Tile_ are located in board.py.
 
