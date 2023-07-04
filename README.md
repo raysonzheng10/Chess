@@ -1,7 +1,13 @@
 # Chess
 #### Video Demo : Coming soon
 #### Description:
-This was created as my final project for Harvard's CS50 course. It's a recreation of chess, created in python using the pygame library. This version of 
+This was created as my final project for Harvard's CS50 course. It's a recreation of chess, created in python using the pygame library. The game runs on pygame's display with a clock speed of 30 to detect player clicks. The game's board is represented and processed through a _Board_ class, that stores the board as a 8x8 matrix with each square being an instance of a separate _Tile_ class. The _Board_ and _Tile_ are located in board.py.
+
+The _Tile_ class contains information on what piece is on it, with each piece having its own class (all of these classes are in movement.py). I changed these classes and functions a lot, and this is what I settled on in the end.
+
+The largest obstacles that I faced usually stemmed from how the classes were structured. I had to rewrite a lot of code because I wasn't able to make certain classes work together and how I would go about processing the movements in the 8x8 matrix and how that would translate properly onto the board that was displayed.
+
+I'd initially wanted to create a AI bot to play against after implementing chess but that's something for me to tackle in the future. I've learned a lot about python's object-oriented coding and also how I can use that to my advantage.
 
 #### Usage
 In order to play, you must first have installed pygame via pip install. Afterwards, you simply run the code and the chessboard will appear in a 800x800 pixel display. There isn't support for undoing moves or saving/loading previous games. To play again, you have to exit and run the code again, which will create a new board with all the pieces in their starting positions.
