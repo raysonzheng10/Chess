@@ -34,10 +34,7 @@ class Tile:
                 pygame.draw.circle(screen, GRAY_MOVE, (100 * self.col + 50, 100 * self.row + 50), MOVE_CIRCLE_SIZE)
             else:
                 pygame.draw.circle(screen, GREEN_MOVE, (100 * self.col + 50, 100 * self.row + 50), MOVE_CIRCLE_SIZE)
-        
-        # reset the movable attribute when you click on something else
-        # self.movable = False
-        # self.attacked = False
+
 
 
 class Board:
@@ -202,7 +199,7 @@ class Board:
                 case "Queen":
                     possible_moves = tile.piece.legal_moves(self.board, tile.piece.move(self.board))
                 case "King":
-                    possible_moves = tile.piece.legal_moves(self.board, tile.piece.move(self.board))
+                    possible_moves = tile.piece.legal_moves(self.board, tile.piece.move(self.board) + tile.piece.castling(self.board))
 
             # Check if it's the correct turn
             if self.turn % 2 == 0 and tile.piece != None:

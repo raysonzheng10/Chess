@@ -449,8 +449,6 @@ class King:
             if not copy_board[move[0]][move[1]].piece.is_checked(copy_board):
                 legal_moves.append(move)
 
-        legal_moves += self.castling(board)
-
         return legal_moves
     
 
